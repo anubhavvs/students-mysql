@@ -18,13 +18,13 @@ connection.connect((err) => {
         console.error(err.stack);
     }
     else {
-        console.log(`Connected to '${process.env.MYSQL_DATABASE}'...`)
+        console.log(`Connected to Database: ${process.env.MYSQL_DATABASE}`)
     }
 });
 
 //GET ALL STUDENTS
 app.get('/api/student', (req, res) => {
-    const getQuery = `SELECT * from ${DBNAME}`
+    const getQuery = `SELECT * from ${DBNAME} ORDER BY percentage DESC`
     connection.query(getQuery, (err, result)=>{
         if(err) {
             res.json(err.sqlMessage);
@@ -43,7 +43,7 @@ app.post('/api/student', (req, res) => {
     const chemistry = req.body.chemistry;
     const total = maths+physics+chemistry;
     const percentage = ((total/300)*100).toFixed(2);
-    const insertQuery = `INSERT INTO ${DBNAME} (roll, name, maths, physics, chemistry, total, percentage) SELECT * FROM ( SELECT ?, ?, ?, ?, ?, ?, ?) AS tmp WHERE NOT EXISTS ( SELECT roll FROM ${DBNAME} WHERE roll=?)`
+    const insertQuery = `INSERT INTO ${DBNAME} (roll, name, maths, physics, chemistry, total, percentage) SELECT * FROM ( SELECT ?, ?, ? AS maths, ? AS physics, ? AS chemistry, ?, ?) AS tmp WHERE NOT EXISTS ( SELECT roll FROM ${DBNAME} WHERE roll=?)`
     const values = [roll, name, maths, physics, chemistry, total, percentage, roll];
     connection.query(insertQuery, values, (err, result) => {
         if(err) {
