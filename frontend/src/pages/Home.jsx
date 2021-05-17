@@ -8,10 +8,10 @@ const Home = () => {
           <h1>Student Records</h1>
           <ButtonGroup>
             <Link to='/leader'>
-                <Button variant="contained">Leaderboard</Button>
+                <Button variant="contained">View Leaderboard</Button>
             </Link>
             <Link to='/add'>
-                <Button variant="contained">Add A Record</Button>
+                <Button variant="contained">Enter Marks</Button>
             </Link>
           </ButtonGroup>
         </Container>

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import {Link} from 'react-router-dom'
 import Axios from 'axios'
 import Fuse from 'fuse.js';
 import Listitem from '../components/ListItem';
 import SearchBox from '../components/SearchBar';
-import { Card, Container, CardContent, Typography, TextField } from '@material-ui/core';
+import { Card, Container, CardContent, Typography, Breadcrumbs } from '@material-ui/core';
 
 const LeaderBoard = () => {
     const [studentList, setStudentList] = useState([]);
@@ -38,7 +39,10 @@ const LeaderBoard = () => {
 
     return (
         <Container>
-            <h1>Leaderboard Page</h1>
+            <Breadcrumbs aria-label='breadcrumb'>
+                <Link to='/'><h1>Home Page</h1></Link>
+                <h1>Leaderboards</h1>
+            </Breadcrumbs>
             <Container style={{padding: '0px 0px 2vw 0px'}}>
                 <SearchBox
                     onChangeHandler={(e)=>searchData(e.target.value)}
