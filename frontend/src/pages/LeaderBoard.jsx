@@ -32,7 +32,7 @@ const LeaderBoard = () => {
     };
 
     useEffect(() => {
-            Axios.get('http://localhost:5000/api/student', {
+            Axios.get('https://student-task.herokuapp.com/api/student', {
                 params: {
                     sort: sort
                 }

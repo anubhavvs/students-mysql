@@ -12,7 +12,7 @@ const Form = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        Axios.post("http://localhost:5000/api/student", {
+        Axios.post("https://student-task.herokuapp.com/api/student", {
             name: name,
             roll: roll,
             physics: physics,
