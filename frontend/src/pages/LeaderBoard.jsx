@@ -4,10 +4,11 @@ import Axios from 'axios'
 import Fuse from 'fuse.js';
 import Listitem from '../components/ListItem';
 import SearchBox from '../components/SearchBar';
-import { Card, Container, CardContent, Typography, Breadcrumbs } from '@material-ui/core';
+import { Card, Container, CardContent, Typography, Breadcrumbs, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
 
 const LeaderBoard = () => {
     const [studentList, setStudentList] = useState([]);
+    const [sort, setSort] = useState('')
     const [loading, setLoading] = useState(true)
 
     const searchData = (pattern) => {
@@ -31,11 +32,15 @@ const LeaderBoard = () => {
     };
 
     useEffect(() => {
-            Axios.get('http://localhost:5000/api/student').then((response) => {
-            setStudentList(response.data)
-            setLoading(true)
+            Axios.get('http://localhost:5000/api/student', {
+                params: {
+                    sort: sort
+                }
+            }).then((response) => {
+                setStudentList(response.data)
+                setLoading(true)
         })
-    }, [loading])
+    }, [loading, sort])
 
     return (
         <Container>
@@ -48,6 +53,27 @@ const LeaderBoard = () => {
                     onChangeHandler={(e)=>searchData(e.target.value)}
                     label='Search With Name'
                 />
+                <FormControl variant="outlined" style={{marginLeft: '3vw', minWidth: '10vw'}}>
+                    <InputLabel id="demo-simple-select-outlined-label">Sort</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-outlined-label"
+                        id="demo-simple-select-outlined"
+                        value={sort}
+                        label="Sort"
+                        onChange={(e)=> setSort(e.target.value)}
+                        placeholder="Percentage DESC"
+                    >
+                        <MenuItem value="percentage ASC">
+                            Percentage (ASC)
+                        </MenuItem>
+                        <MenuItem value="name ASC">
+                            Name (ASC)
+                        </MenuItem>
+                        <MenuItem value="name DESC">
+                            Name (DESC)
+                        </MenuItem>
+                    </Select>
+                </FormControl>
             </Container>
             <Card variant='outlined'>
                 <CardContent style={{display: 'flex', flexDirection: 'row', textAlign: 'center'}}>

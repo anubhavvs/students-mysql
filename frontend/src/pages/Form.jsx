@@ -6,11 +6,12 @@ import {Container, Breadcrumbs, Grid, Button, InputLabel, TextField } from '@mat
 const Form = () => {
     const [roll, setRoll] = useState('');
     const [name, setName] = useState('');
-    const [physics, setPhysics] = useState(0);
-    const [maths, setMaths] = useState(0);
-    const [chemistry, setChemistry] = useState(0);
+    const [physics, setPhysics] = useState('');
+    const [maths, setMaths] = useState('');
+    const [chemistry, setChemistry] = useState('');
 
     const handleSubmit = (event) => {
+        event.preventDefault()
         Axios.post("http://localhost:5000/api/student", {
             name: name,
             roll: roll,
@@ -19,6 +20,11 @@ const Form = () => {
             maths: maths
         }).then((response) => {
             alert(response.data.message);
+            setName('')
+            setRoll('')
+            setPhysics('')
+            setMaths('')
+            setChemistry('')
         }, (error) => {
             console.log(error);
         })
@@ -35,23 +41,23 @@ const Form = () => {
                 <Grid container spacing={2} justify='space-evenly'>
                     <Grid item xs={12}>
                         <InputLabel>Enter Name: </InputLabel>
-                        <TextField variant="outlined" required name="name" onChange={(e) => setName(e.target.value)} style={{minWidth: '50%'}}/>
+                        <TextField variant="outlined" value={name} required name="name" onChange={(e) => setName(e.target.value)} style={{minWidth: '50%'}}/>
                     </Grid>
                     <Grid item xs={12}>
                         <InputLabel>Enter Roll: </InputLabel>
-                        <TextField variant="outlined" required name="roll" onChange={(e) => setRoll(parseInt(e.target.value))} style={{minWidth: '50%'}}/>
+                        <TextField variant="outlined" value={roll} required name="roll" onChange={(e) => setRoll(parseInt(e.target.value))} style={{minWidth: '50%'}}/>
                     </Grid>
                     <Grid item xs={12}>
                         <InputLabel>Enter Physics Marks: </InputLabel>
-                        <TextField variant="outlined" required name="physics" onChange={(e) => setPhysics(parseFloat(e.target.value))} style={{minWidth: '50%'}}/>
+                        <TextField variant="outlined" value={physics} required name="physics" onChange={(e) => setPhysics(parseFloat(e.target.value))} style={{minWidth: '50%'}}/>
                     </Grid>
                     <Grid item xs={12}>
                         <InputLabel>Enter Chemistry Marks: </InputLabel>
-                        <TextField variant="outlined" required name="chemistry" onChange={(e) => setChemistry(parseFloat(e.target.value))} style={{minWidth: '50%'}}/>
+                        <TextField variant="outlined" value={chemistry} required name="chemistry" onChange={(e) => setChemistry(parseFloat(e.target.value))} style={{minWidth: '50%'}}/>
                     </Grid>
                     <Grid item xs={12}>
                         <InputLabel>Enter Math Marks: </InputLabel>
-                        <TextField variant="outlined" required name="maths" onChange={(e) => setMaths(parseFloat(e.target.value))} style={{minWidth: '50%'}}/>
+                        <TextField variant="outlined" value={maths} required name="maths" onChange={(e) => setMaths(parseFloat(e.target.value))} style={{minWidth: '50%'}}/>
                     </Grid>
                 </Grid>
                 <Grid container spacing={0} justify="center">
@@ -60,7 +66,6 @@ const Form = () => {
                     </Button>
                 </Grid>
             </form>
-            
         </Container>
     )
 }
