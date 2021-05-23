@@ -8,8 +8,8 @@ import { Card, Container, CardContent, Typography, Breadcrumbs, Select, MenuItem
 
 const LeaderBoard = () => {
     const [studentList, setStudentList] = useState([]);
-    const [sort, setSort] = useState('')
-    const [loading, setLoading] = useState(true)
+    const [sort, setSort] = useState('');
+    const [loading, setLoading] = useState(true);
 
     const searchData = (pattern) => {
         if (!pattern) {
@@ -31,16 +31,25 @@ const LeaderBoard = () => {
         }
     };
 
-    useEffect(() => {
-            Axios.get('https://student-task.herokuapp.com/api/student', {
-                params: {
-                    sort: sort
-                }
-            }).then((response) => {
+    const handleChange = (e) => {
+        setSort(e)
+        Axios.get(`https://student-task.herokuapp.com/api/student?sort=${e}`)
+            .then((response) => {
                 setStudentList(response.data)
-                setLoading(true)
-        })
-    }, [loading, sort])
+                setLoading(false)
+            })
+    }
+
+    useEffect(() => {
+        Axios.get('https://student-task.herokuapp.com/api/student')
+            .then((response) => {
+                setStudentList(response.data)
+                setLoading(false)
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [loading])
 
     return (
         <Container>
@@ -60,17 +69,44 @@ const LeaderBoard = () => {
                         id="demo-simple-select-outlined"
                         value={sort}
                         label="Sort"
-                        onChange={(e)=> setSort(e.target.value)}
+                        onChange={(e)=> handleChange(e.target.value)}
                         placeholder="Percentage DESC"
                     >
                         <MenuItem value="percentage ASC">
                             Percentage (ASC)
+                        </MenuItem>
+                        <MenuItem value="percentage DESC">
+                            Percentage (DESC)
                         </MenuItem>
                         <MenuItem value="name ASC">
                             Name (ASC)
                         </MenuItem>
                         <MenuItem value="name DESC">
                             Name (DESC)
+                        </MenuItem>
+                        <MenuItem value="roll ASC">
+                            Roll (ASC)
+                        </MenuItem>
+                        <MenuItem value="roll DESC">
+                            Roll (DESC)
+                        </MenuItem>
+                        <MenuItem value="physics ASC">
+                            Physics (ASC)
+                        </MenuItem>
+                        <MenuItem value="physics DESC">
+                            Physics (DESC)
+                        </MenuItem>
+                        <MenuItem value="maths ASC">
+                            Maths (ASC)
+                        </MenuItem>
+                        <MenuItem value="maths DESC">
+                            Maths (DESC)
+                        </MenuItem>
+                        <MenuItem value="chemistry ASC">
+                            Chemistry (ASC)
+                        </MenuItem>
+                        <MenuItem value="chemistry DESC">
+                            Chemistry (DESC)
                         </MenuItem>
                     </Select>
                 </FormControl>

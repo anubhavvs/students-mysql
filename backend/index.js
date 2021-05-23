@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 5000;
 
 //GET ALL STUDENTS
 app.get('/api/student', (req, res) => {
-    const sort = req.params.sort ? req.params.sort : 'percentage DESC'
+    const sort = req.query.sort ? req.query.sort : 'percentage DESC'
     const getQuery = `SELECT * from ${DBNAME} ORDER BY ${sort}`;
     connection.query(getQuery, (error, result) => {
         if(error) {
